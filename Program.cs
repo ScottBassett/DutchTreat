@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace DutchTreat
 {
@@ -18,9 +13,16 @@ namespace DutchTreat
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .ConfigureAppConfiguration(SetupConfiguration)
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+
+        private static void SetupConfiguration(HostBuilderContext ctx, IConfigurationBuilder builder)
+        {
+            // Removing the default configuration options
+            builder.Sources.Clear();
+
+            builder.AddJsonFile("config.json", false, true)
+                   .AddEnvironmentVariables();
+        }
     }
 }
