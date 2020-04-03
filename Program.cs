@@ -23,7 +23,7 @@ namespace DutchTreat
 
             using var scope = scopeFactory.CreateScope();
             var seeder = scope.ServiceProvider.GetService<DutchSeeder>();
-            seeder.Seed();
+            seeder.SeedAsync().Wait();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
