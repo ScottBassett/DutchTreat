@@ -1,3 +1,4 @@
+using AutoMapper;
 using DutchTreat.Data;
 using DutchTreat.Services;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace DutchTreat
 {
@@ -29,6 +31,8 @@ namespace DutchTreat
                 config.UseSqlServer(_config.GetConnectionString("DutchConnectionString")));
 
             services.AddTransient<DutchSeeder>();
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly()); //Tells Automapper to look for 'profiles' for all the mappings that we'll need
 
             services.AddTransient<IMailService, NullMailService>();
             // Support for real mail service
